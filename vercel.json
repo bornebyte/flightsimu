@@ -1,0 +1,11 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "api/network.js": {
+      "includeFiles": "flight_network.json"
+    },
+    "api/dispatcher.js": {
+      "maxDuration": 20
+    }
+  }
+}
