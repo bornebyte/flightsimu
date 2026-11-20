@@ -39,15 +39,15 @@ async function readJsonBody(request) {
 }
 
 async function callDispatcher(payload) {
-  const apiKey = process.env.OPENAI_API_KEY;
+  const apiKey = process.env.GROQ_API_KEY;
   if (!apiKey) {
-    throw Object.assign(new Error("AI provider is not configured. Using the deterministic demo dispatcher."), { statusCode: 503 });
+    throw Object.assign(new Error("Groq is not configured. Set GROQ_API_KEY to enable AI; using the deterministic demo dispatcher."), { statusCode: 503 });
   }
   if (!payload || typeof payload !== "object" || !payload.incident || !payload.network_metrics || !Array.isArray(payload.candidate_recovery_actions)) {
     throw Object.assign(new Error("Dispatcher input is missing simulation state."), { statusCode: 400 });
   }
-  const model = process.env.OPENAI_MODEL || "gpt-4o-mini";
-  const baseUrl = (process.env.OPENAI_BASE_URL || "https://api.openai.com/v1").replace(/\/$/, "");
+  const model = process.env.GROQ_MODEL || "openai/gpt-oss-120b";
+  const baseUrl = (process.env.GROQ_BASE_URL || "https://api.groq.com/openai/v1").replace(/\/$/, "");
   const systemPrompt = [
     "You are an airline operations dispatcher. You receive the authoritative output of a deterministic flight network simulation.",
     "Never invent or modify numerical values. Never perform passenger, delay, crew, or flight calculations. Use only supplied state.",
